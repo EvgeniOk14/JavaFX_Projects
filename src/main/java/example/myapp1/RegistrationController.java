@@ -30,10 +30,10 @@ public class RegistrationController
     private URL location;
 
     @FXML
-    private Button authSighInButton;
+    private Button authSighInButton; // кнопка Войти (после ввода пароля и логина)
 
     @FXML
-    private Button loginSignUpButton; /* кнопка зарегистрироваться (переход на регистрацию)*/
+    private Button loginSignUpButton; // кнопка зарегистрироваться (переход на регистрацию)
 
     @FXML
     private TextField login_field;

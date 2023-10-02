@@ -21,10 +21,9 @@ public class PictureController {
     private ImageView imageButtonPicture1;
 
     @FXML
-    void initialize() {
+    void initialize()
+    {
         assert imageButtonPicture != null : "fx:id=\"imageButtonPicture\" was not injected: check your FXML file 'picture.fxml'.";
-       /* assert imageButtonPicture1 != null : "fx:id=\"imageButtonPicture1\" was not injected: check your FXML file 'picture.fxml'.";*/
-
     }
 
 }
