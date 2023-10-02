@@ -4,28 +4,28 @@ public class User
 {
     private String firstName;
     private String lastName;
-    private String uerName;
+    private String userName;
     private String password;
     private String location;
     private String gender;
 
-    public User(String firstName, String lastName, String uerName, String password, String location, String gender) {
+    public User(String firstName, String lastName, String userName, String password, String location, String gender) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.uerName = uerName;
+        this.userName = userName;
         this.password = password;
         this.location = location;
         this.gender = gender;
     }
 
-    public User(String firstName, String lastName, String uerName, String password, String location) {
-        this(firstName, lastName, uerName, password, location, null);
+    public User(String firstName, String lastName, String userName, String password, String location) {
+        this(firstName, lastName, userName, password, location, null);
     }
-    public User(String firstName, String lastName, String uerName, String password) {
-        this(firstName, lastName, uerName, password, null, null);
+    public User(String firstName, String lastName, String userName, String password) {
+        this(firstName, lastName, userName, password, null, null);
     }
-    public User(String firstName, String lastName, String uerName) {
-        this(firstName, lastName, uerName, null, null, null);
+    public User(String firstName, String lastName, String userName) {
+        this(firstName, lastName, userName, null, null, null);
     }
     public User(String firstName, String lastName) {
         this(firstName, lastName, null, null, null, null);
@@ -54,11 +54,11 @@ public class User
     }
 
     public String getUerName() {
-        return uerName;
+        return userName;
     }
 
     public void setUerName(String uerName) {
-        this.uerName = uerName;
+        this.userName = uerName;
     }
 
     public String getPassword() {

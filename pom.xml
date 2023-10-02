@@ -38,10 +38,24 @@
       <scope>test</scope>
     </dependency>
 
+
+    <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-graphics -->
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics</artifactId>
+      <version>22-ea+9</version>
+    </dependency>
+
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
-      <version>8.1.0</version>
+      <version>8.0.26</version>
+      <exclusions>
+        <exclusion>
+          <groupId>conflicting-group-id</groupId>
+          <artifactId>conflicting-artifact-id</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
   </dependencies>

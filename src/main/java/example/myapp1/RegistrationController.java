@@ -9,6 +9,8 @@ import java.util.ResourceBundle;
 import example.myapp1.animations.Shake;
 import example.myapp1.service.DatebaseHandler;
 import example.myapp1.service.User;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,7 +20,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class RegistrationController {
+public class RegistrationController
+{
 
     @FXML
     private ResourceBundle resources;
@@ -30,7 +33,7 @@ public class RegistrationController {
     private Button authSighInButton;
 
     @FXML
-    private Button loginSignUpButton;
+    private Button loginSignUpButton; /* кнопка зарегистрироваться (переход на регистрацию)*/
 
     @FXML
     private TextField login_field;
@@ -39,14 +42,26 @@ public class RegistrationController {
     private PasswordField password_field;
 
     @FXML
-    void initialize() {
+    void initialize()
+    {
+
         authSighInButton.setOnAction(actionEvent ->
         {
-            String logingText = login_field.getText().trim();
-            String logingPassword = password_field.getText().trim();
-            if(!logingText.equals("") && !logingPassword.equals(""))
+            String loginText = login_field.getText().trim();
+            String loginPassword = password_field.getText().trim();
+            if(!loginText.equals("") && !loginPassword.equals(""))
             {
-                loginUser(logingText, logingPassword);
+                Task<Void> loginTask = new Task<Void>()
+                {
+                    @Override
+                    protected Void call() throws Exception
+                    {
+                        loginUser(loginText, loginPassword);
+                        return null;
+                    }
+                };
+                Thread loginThread = new Thread(loginTask);
+                loginThread.start();
             }
             else
             {
@@ -61,55 +76,74 @@ public class RegistrationController {
 
         });
     }
+
+
+
     public void loginUser(String loginText, String loginPassword)
     {
-        DatebaseHandler dbHandler = new DatebaseHandler();
-        User user = new User();
-        user.setUerName(loginText);
-        user.setPassword(loginPassword);
-        ResultSet result = dbHandler.getUser(user);
+        Task<Void> loginTask = new Task<Void>()
+        {
+            @Override
+            protected Void call() throws Exception
+            {
 
-        int count = 0;
+                    DatebaseHandler dbHandler = new DatebaseHandler();
+                    User user = new User();
+                    user.setUerName(loginText);
+                    user.setPassword(loginPassword);
+                    ResultSet result = dbHandler.getUser(user);
+
+                    int count = 0;
+                    try
+                        {
+                        while (result.next())
+                            {
+                                count++;
+                            }
+                        }
+                    catch (SQLException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    if (count >= 1)
+                    {
+                        Platform.runLater(() -> openNewScene("picture.fxml"));
+                    }
+                    else
+                    {
+                        Platform.runLater(() ->
+                        {
+                            Shake userLoginAnim = new Shake(login_field);
+                            Shake userPassAnim = new Shake(password_field);
+                            userLoginAnim.playAnim();
+                            userPassAnim.playAnim();
+                        });
+                    }
+                    return null;
+            }
+        };
+
+        Thread loginThread = new Thread(loginTask);
+        loginThread.start();
+    }
+
+
+    private void openNewScene(String fxmlFile)
+    {
         try
         {
-            while (result.next())
-            {
-                count++;
-            }
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
         }
-        catch (SQLException e)
+        catch (IOException e)
         {
             e.printStackTrace();
         }
-        if (count >= 1)
-        {
-            /*System.out.println("Успех!");*/
-            openNewScene("picture.fxml");
-        }
-        else
-        {
-            Shake userLoginAnim = new Shake(login_field);
-            Shake userPassAnim = new Shake(password_field);
-            userLoginAnim.playAnim();
-            userPassAnim.playAnim();
-        }
     }
 
-    public void openNewScene(String window)
-    {
-        loginSignUpButton.getScene().getWindow().hide();
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource(window));
-        try {
-            loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        Parent root = loader.getRoot();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.showAndWait();
-    }
 }
 
 
