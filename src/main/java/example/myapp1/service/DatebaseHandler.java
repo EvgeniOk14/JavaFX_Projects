@@ -1,5 +1,9 @@
 package example.myapp1.service;
 
+import example.myapp1.InputUserInDbController;
+import example.myapp1.PictureController;
+import javafx.scene.control.Label;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -9,6 +13,8 @@ import java.sql.ResultSet;
 public class DatebaseHandler extends Configs
 {
     Connection dbConnection;
+
+
 
     public Connection getDbConnection() throws ClassNotFoundException, SQLException
     {
@@ -80,29 +86,51 @@ public class DatebaseHandler extends Configs
         return resSet;
     }
 
-    /*
-    public void deleteUser(User user)
-    {
-        String delete = "DELETE FROM " + Const.USERS_TABLE + " WHERE "
-                + Const.USERS_USERNAME + "=? AND "
-                + Const.USERS_PASSWORD + "=?";
 
+    public void deleteUser(int id)
+    {
+        String query = "DELETE FROM " + Const.USERS_TABLE + " WHERE "
+                + Const.USERS_ID + " =?";
         try
         {
-            PreparedStatement prSt = getDbConnection().prepareStatement(delete);
-            prSt.setString(1, user.getUerName());
-            prSt.setString(2, user.getPassword());
-            prSt.executeUpdate();
+            PreparedStatement prSt = getDbConnection().prepareStatement(query);
+            prSt.setInt(1, id);
+            int quantity = prSt.executeUpdate();
         }
+
         catch(SQLException e)
         {
             e.printStackTrace();
         }
+
         catch (ClassNotFoundException e)
         {
             e.printStackTrace();
         }
     }
-    */
+
+    public void deleteUserByName(String name)
+    {
+        String query = "DELETE FROM " + Const.USERS_TABLE + " WHERE "
+                + Const.USERS_FIRSTNAME + " =?";
+        try
+        {
+            PreparedStatement prSt = getDbConnection().prepareStatement(query);
+            prSt.setString(1, name);
+            int quantity = prSt.executeUpdate();
+        }
+
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        catch (ClassNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+
 }
 

@@ -17,8 +17,8 @@ public class RunApplication extends Application
         stage.setTitle("MyApp1");
         stage.setScene(scene);
         stage.show();
-        fxmlLoader.setController(new RegistrationController());
-        fxmlLoader.setController(new InputUserInDbController());
+        /*fxmlLoader.setController(new RegistrationController());*/
+        /*fxmlLoader.setController(new InputUserInDbController());*/
     }
 
     public static void main(String[] args)
